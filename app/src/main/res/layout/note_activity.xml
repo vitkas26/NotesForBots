@@ -4,18 +4,24 @@
     android:layout_height="match_parent"
     android:background="@color/purple_200"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="@dimen/half_padding">
 
 
     <EditText
         android:id="@+id/note_activity__title_edit_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="@string/title_hint"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/note_activity__notes_text_edit_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="@string/note_hint"
+        android:importantForAutofill="no" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -28,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:backgroundTint="@color/purple_700"
-            android:text="Save"
+            android:text="@string/save_button_text"
             android:textColor="@color/white" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -37,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:backgroundTint="@color/purple_700"
-            android:text="Delete"
+            android:text="@string/delete_button_text"
             android:textColor="@color/white" />
     </LinearLayout>
 
