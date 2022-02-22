@@ -1,7 +1,8 @@
-package com.example.notesforbots;
+package com.example.notesforbots.domain;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,23 +10,30 @@ import java.util.Locale;
 import java.util.Random;
 
 public class NotesEntity implements Parcelable {
-    ArrayList<NotesEntity> notesEntities = new ArrayList<>();
-
-    private final String id = String.valueOf(new Random().nextInt(1000 + 1));
-    private final String notesHeader;
-    private final String notesText;
-    private final String notesCreationDate = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.US).
+    private String id = String.valueOf(new Random().nextInt(1000 + 1));
+    private String notesTitle;
+    private String notesText;
+    private String notesCreationDate = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.US).
             format(Calendar.getInstance().getTime());
 
-    public NotesEntity(String notesHeader, String notesText) {
-        this.notesHeader = notesHeader;
+    public NotesEntity(String notesTitle, String notesText) {
+        this.notesTitle = notesTitle;
+        this.notesText = notesText;
+    }
+
+    public void setNotesTitle(String notesTitle) {
+        this.notesTitle = notesTitle;
+    }
+
+    public void setNotesText(String notesText) {
         this.notesText = notesText;
     }
 
     protected NotesEntity(Parcel in) {
-        notesEntities = in.createTypedArrayList(NotesEntity.CREATOR);
-        notesHeader = in.readString();
+        id = in.readString();
+        notesTitle = in.readString();
         notesText = in.readString();
+        notesCreationDate = in.readString();
     }
 
     public static final Creator<NotesEntity> CREATOR = new Creator<NotesEntity>() {
@@ -44,8 +52,8 @@ public class NotesEntity implements Parcelable {
         return id;
     }
 
-    public String getNotesHeader() {
-        return notesHeader;
+    public String getNotesTitle() {
+        return notesTitle;
     }
 
     public String getNotesText() {
@@ -56,6 +64,7 @@ public class NotesEntity implements Parcelable {
         return notesCreationDate;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -63,9 +72,9 @@ public class NotesEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeTypedList(notesEntities);
         parcel.writeString(id);
-        parcel.writeString(notesHeader);
+        parcel.writeString(notesTitle);
         parcel.writeString(notesText);
+        parcel.writeString(notesCreationDate);
     }
 }

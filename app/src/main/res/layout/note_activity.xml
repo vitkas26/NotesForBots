@@ -2,33 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#93E8F3"
+    android:background="@color/purple_200"
     android:orientation="vertical"
     android:padding="8dp">
 
-    <EditText
-        android:id="@+id/title_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter Your Title Here"
-        android:padding="8dp" />
 
     <EditText
-        android:id="@+id/notes_text_edit_text"
+        android:id="@+id/note_activity__title_edit_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter Your Notes Text" />
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/note_activity__notes_text_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
-        android:background="#93E8F3"
-        android:orientation="horizontal">
+        android:layout_gravity="center">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/save_button"
+            android:id="@+id/note_activity__save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -37,12 +32,12 @@
             android:textColor="@color/white" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/cancel_button"
+            android:id="@+id/note_activity__delete_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:backgroundTint="@color/purple_700"
-            android:text="Cancel"
+            android:text="Delete"
             android:textColor="@color/white" />
     </LinearLayout>
 

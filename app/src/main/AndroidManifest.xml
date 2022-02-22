@@ -11,7 +11,7 @@
         android:name=".App"
         android:theme="@style/Theme.NotesForBots">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewNote"/>
+        <activity android:name=".ui.NewNoteActivity"/>
+        <activity android:name=".ui.NoteActivity"/>
     </application>
 
 </manifest>
