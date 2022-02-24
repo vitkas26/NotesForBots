@@ -19,7 +19,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesViewHolder> {
     OnNoteClickListener onNoteClickListener;
 
     public void setData(List<NotesEntity> notesEntities) {
-        data = notesEntities;
+        data.clear();
+        data.addAll(notesEntities);
         notifyDataSetChanged();
     }
 
