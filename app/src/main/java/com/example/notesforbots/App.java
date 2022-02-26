@@ -7,18 +7,16 @@ import com.example.notesforbots.data.LocalNotesRepoImpl;
 import com.example.notesforbots.domain.NotesRepo;
 
 public class App extends Application {
-    private final NotesRepo localNotesRepo = new LocalNotesRepoImpl();
+    private static App sInstance = null;
+    public final NotesRepo localNotesRepo = new LocalNotesRepoImpl();
 
     @Override
     public void onCreate() {
         super.onCreate();
+        sInstance = this;
     }
 
-    public NotesRepo getNotesRepo(){
-        return localNotesRepo;
-    }
-
-    public static App get(Context context){
-        return (App) context.getApplicationContext();
+    public static App get(){
+        return sInstance;
     }
 }

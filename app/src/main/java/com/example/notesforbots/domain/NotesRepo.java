@@ -7,4 +7,5 @@ public interface NotesRepo {
     void addNotes(NotesEntity notesEntity);
     void editNotes(NotesEntity notesEntity);
     void deleteNote(NotesEntity notesEntity);
+    void swapNote(NotesEntity notesEntity);
 }
