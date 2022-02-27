@@ -4,7 +4,6 @@
     android:id="@+id/item_note__card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/half_margin"
     app:cardBackgroundColor="@color/teal_200"
     app:cardCornerRadius="@dimen/card_corner_radius"
     app:cardElevation="@dimen/card_elevation"
@@ -32,14 +31,14 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/item_note__delete_button"
-                android:layout_width="25dp"
+                android:layout_width="@dimen/delete_button_size"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/half_margin"
                 android:background="@drawable/ic_baseline_delete_24"/>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/item_note__refresh_button"
-                android:layout_width="25dp"
+                android:layout_width="@dimen/refresh_button_size"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/half_margin"
                 android:background="@drawable/ic_baseline_refresh_24"/>
