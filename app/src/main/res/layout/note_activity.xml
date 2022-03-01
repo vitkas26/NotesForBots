@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/note_hint"
         android:importantForAutofill="no"
-        android:inputType="text" />
+        android:inputType="textMultiLine" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -54,36 +54,36 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/black_color_image_view"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/color_box_size"
+            android:layout_height="@dimen/color_box_size"
             android:layout_margin="@dimen/half_margin"
             android:background="@color/black" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/blue_color_image_view"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/color_box_size"
+            android:layout_height="@dimen/color_box_size"
             android:layout_margin="@dimen/half_margin"
             android:background="@color/purple_700" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/white_color_image_view"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/color_box_size"
+            android:layout_height="@dimen/color_box_size"
             android:layout_margin="@dimen/half_margin"
             android:background="@color/white" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/green_color_image_view"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/color_box_size"
+            android:layout_height="@dimen/color_box_size"
             android:layout_margin="@dimen/half_margin"
             android:background="@color/teal_700" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/orange_color_image_view"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/color_box_size"
+            android:layout_height="@dimen/color_box_size"
             android:layout_margin="@dimen/half_margin"
             android:background="@color/orange" />
     </LinearLayout>

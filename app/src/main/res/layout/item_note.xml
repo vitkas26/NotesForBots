@@ -23,7 +23,7 @@
                 android:id="@+id/item_note__title_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="50"
                 android:padding="@dimen/half_padding"
                 android:text="@string/header_hint"
                 android:textColor="@color/white"
@@ -34,6 +34,7 @@
                 android:layout_width="@dimen/delete_button_size"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/half_margin"
+                android:layout_weight="1"
                 android:background="@drawable/ic_baseline_delete_24"/>
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -41,6 +42,7 @@
                 android:layout_width="@dimen/refresh_button_size"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/half_margin"
+                android:layout_weight="1"
                 android:background="@drawable/ic_baseline_refresh_24"/>
         </LinearLayout>
 

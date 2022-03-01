@@ -2,6 +2,7 @@ package com.example.notesforbots.ui;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         notesRepo = App.get().localNotesRepo;
         initRecyclerView();
         initButton();
+        initSwapAction();
     }
 
     private void initButton() {
@@ -62,9 +64,16 @@ public class MainActivity extends AppCompatActivity {
                 notesRepo.swapNote(notesEntity);
                 notesAdapter.setData(notesRepo.getNotes());
             }
+
         });
         notesAdapter.setData(notesRepo.getNotes());
         recyclerView.setAdapter(notesAdapter);
+    }
+
+    private void initSwapAction() {
+        ItemTouchHelper.Callback callback = new SwipeCallback(notesAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override
