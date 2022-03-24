@@ -1,11 +1,10 @@
 package com.example.notesforbots.data;
 
-import android.util.Log;
-
 import com.example.notesforbots.domain.NotesEntity;
 import com.example.notesforbots.domain.NotesRepo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LocalNotesRepoImpl implements NotesRepo {
@@ -19,15 +18,6 @@ public class LocalNotesRepoImpl implements NotesRepo {
         ArrayList<NotesEntity> notesEntities = new ArrayList<>();
         notesEntities.add(new NotesEntity("Header", "Your Text Here !"));
         return notesEntities;
-    }
-
-    private int findPosition(NotesEntity notesEntity) {
-        for (int i = 0; i < localNotesRepo.size(); i++) {
-            if (localNotesRepo.get(i).getId().equals(notesEntity.getId())) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     @Override
@@ -50,4 +40,21 @@ public class LocalNotesRepoImpl implements NotesRepo {
         localNotesRepo.remove(findPosition(notesEntity));
     }
 
+    private int findPosition(NotesEntity notesEntity) {
+        for (int i = 0; i < localNotesRepo.size(); i++) {
+            if (localNotesRepo.get(i).getId().equals(notesEntity.getId())) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public void swapNote(NotesEntity notesEntity) {
+        try {
+            Collections.swap(localNotesRepo, findPosition(notesEntity), findPosition(notesEntity) - 1);
+        } catch (ArrayIndexOutOfBoundsException outOfBoundsException) {
+            System.out.println("Array out of bound");
+        }
+    }
 }

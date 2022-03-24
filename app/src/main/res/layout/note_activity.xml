@@ -11,17 +11,17 @@
         android:id="@+id/note_activity__title_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
         android:hint="@string/title_hint"
-        android:importantForAutofill="no" />
+        android:importantForAutofill="no"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/note_activity__notes_text_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
         android:hint="@string/note_hint"
-        android:importantForAutofill="no" />
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -45,6 +45,47 @@
             android:backgroundTint="@color/purple_700"
             android:text="@string/delete_button_text"
             android:textColor="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/black_color_image_view"
+            android:layout_width="@dimen/color_box_size"
+            android:layout_height="@dimen/color_box_size"
+            android:layout_margin="@dimen/half_margin"
+            android:background="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/blue_color_image_view"
+            android:layout_width="@dimen/color_box_size"
+            android:layout_height="@dimen/color_box_size"
+            android:layout_margin="@dimen/half_margin"
+            android:background="@color/purple_700" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/white_color_image_view"
+            android:layout_width="@dimen/color_box_size"
+            android:layout_height="@dimen/color_box_size"
+            android:layout_margin="@dimen/half_margin"
+            android:background="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/green_color_image_view"
+            android:layout_width="@dimen/color_box_size"
+            android:layout_height="@dimen/color_box_size"
+            android:layout_margin="@dimen/half_margin"
+            android:background="@color/teal_700" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/orange_color_image_view"
+            android:layout_width="@dimen/color_box_size"
+            android:layout_height="@dimen/color_box_size"
+            android:layout_margin="@dimen/half_margin"
+            android:background="@color/orange" />
     </LinearLayout>
 
 </LinearLayout>

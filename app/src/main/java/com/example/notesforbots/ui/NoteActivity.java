@@ -1,12 +1,13 @@
 package com.example.notesforbots.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-
+import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.notesforbots.App;
 import com.example.notesforbots.R;
 import com.example.notesforbots.domain.NotesEntity;
@@ -18,6 +19,11 @@ public class NoteActivity extends AppCompatActivity {
     EditText notesTextEditText;
     Button saveButton;
     Button deleteButton;
+    ImageView blackColorImageView;
+    ImageView blueColorImageView;
+    ImageView whiteColorImageView;
+    ImageView greenColorImageView;
+    ImageView orangeColorImageView;
     NotesRepo repo;
     NotesEntity notesEntity;
 
@@ -26,7 +32,7 @@ public class NoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.note_activity);
-        repo = App.get(this).getNotesRepo();
+        repo = App.get().localNotesRepo;
         initViews();
         fillNote();
     }
@@ -42,6 +48,11 @@ public class NoteActivity extends AppCompatActivity {
         notesTextEditText = findViewById(R.id.note_activity__notes_text_edit_text);
         saveButton = findViewById(R.id.note_activity__save_button);
         deleteButton = findViewById(R.id.note_activity__delete_button);
+        blackColorImageView = findViewById(R.id.black_color_image_view);
+        blueColorImageView = findViewById(R.id.blue_color_image_view);
+        whiteColorImageView = findViewById(R.id.white_color_image_view);
+        greenColorImageView = findViewById(R.id.green_color_image_view);
+        orangeColorImageView = findViewById(R.id.orange_color_image_view);
         saveButton.setOnClickListener(v -> {
             repo.editNotes(getEditedNote());
             setResult(RESULT_OK);
@@ -52,11 +63,31 @@ public class NoteActivity extends AppCompatActivity {
             setResult(RESULT_OK);
             finish();
         });
+        blackColorImageView.setOnClickListener(v-> notesEntity.setNotesColor(Color.parseColor("#FF000000")));
+        blueColorImageView.setOnClickListener(v-> notesEntity.setNotesColor(Color.parseColor("#FF3700B3")));
+        whiteColorImageView.setOnClickListener(v-> notesEntity.setNotesColor(Color.parseColor("#FFFFFFFF")));
+        greenColorImageView.setOnClickListener(v-> notesEntity.setNotesColor(Color.parseColor("#FF018786")));
+        orangeColorImageView.setOnClickListener(v-> notesEntity.setNotesColor(Color.parseColor("#FF9800")));
     }
 
     private NotesEntity getEditedNote() {
         notesEntity.setNotesText(notesTextEditText.getText().toString());
         notesEntity.setNotesTitle(titleEditText.getText().toString());
+        setColor(notesEntity);
         return notesEntity;
     }
+
+    private void setColor(NotesEntity notesEntity) {
+        if (notesEntity.getNotesColor() != Color.parseColor("#FF03DAC5")) {
+            notesEntity.setTitleColor(Color.parseColor("#FFFFFFFF"));
+            notesEntity.setTextColor(Color.parseColor("#FFFFFFFF"));
+            notesEntity.setDateColor(Color.parseColor("#FFFFFFFF"));
+        }
+        if (notesEntity.getNotesColor() == Color.parseColor("#FFFFFFFF")) {
+            notesEntity.setTitleColor(Color.parseColor("#FF000000"));
+            notesEntity.setTextColor(Color.parseColor("#FF000000"));
+            notesEntity.setDateColor(Color.parseColor("#FF000000"));
+        }
+    }
+
 }
