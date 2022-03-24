@@ -14,12 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.notesforbots.App;
 import com.example.notesforbots.R;
 import com.example.notesforbots.domain.NotesEntity;
-import com.example.notesforbots.domain.NotesRepo;
 
 public class NoteFragment extends Fragment {
+    private static final String NOTES_ENTITY_KEY = "NOTES_ENTITY_KEY";
     private EditText titleEditText;
     private EditText notesTextEditText;
     private Button saveButton;
@@ -29,18 +28,20 @@ public class NoteFragment extends Fragment {
     private ImageView whiteColorImageView;
     private ImageView greenColorImageView;
     private ImageView orangeColorImageView;
-    private NotesRepo repo;
     private NotesEntity notesEntity;
     private Controller controller;
 
     public interface Controller {
-        void onDeleteButtonClick();
-
-        void onSaveButtonClick();
+        void onDeleteButtonClick(NotesEntity notesEntity);
+        void onSaveNoteNoteFragment(NotesEntity notesEntity);
     }
 
-    public NoteFragment(NotesEntity notesEntity) {
-        this.notesEntity = notesEntity;
+    public static NoteFragment newInstance (NotesEntity notesEntity) {
+        NoteFragment noteFragment = new NoteFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(NOTES_ENTITY_KEY, notesEntity);
+        noteFragment.setArguments(bundle);
+        return noteFragment;
     }
 
     @Override
@@ -63,7 +64,7 @@ public class NoteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        repo = App.get().localNotesRepo;
+        notesEntity = getArguments().getParcelable(NOTES_ENTITY_KEY);
         initViews(view);
         fillNote();
     }
@@ -88,12 +89,11 @@ public class NoteFragment extends Fragment {
 
     private void setClickListeners() {
         saveButton.setOnClickListener(v -> {
-            repo.editNotes(getEditedNote());
-            controller.onSaveButtonClick();
+            notesEntity = getEditedNote();
+            controller.onSaveNoteNoteFragment(notesEntity);
         });
         deleteButton.setOnClickListener(v -> {
-            repo.deleteNote(notesEntity);
-            controller.onDeleteButtonClick();
+            controller.onDeleteButtonClick(notesEntity);
         });
         blackColorImageView.setOnClickListener(v -> notesEntity.setNotesColor(Color.parseColor("#FF000000")));
         blueColorImageView.setOnClickListener(v -> notesEntity.setNotesColor(Color.parseColor("#FF3700B3")));

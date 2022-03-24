@@ -11,7 +11,7 @@ import com.example.notesforbots.domain.NotesEntity;
 public class MainActivity extends AppCompatActivity implements
         NotesListFragment.Controller,
         NewNoteFragment.Controller,
-        NoteFragment.Controller{
+        NoteFragment.Controller {
 
     private final static String TAG_NOTE_LIST_FRAGMENT = "TAG_NOTE_LIST_FRAGMENT";
 
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void showNote(NotesEntity notesEntity) {
-        NoteFragment noteFragment = new NoteFragment(notesEntity);
+        NoteFragment noteFragment = NoteFragment.newInstance(notesEntity);
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.activity_main__fragment_container, noteFragment)
@@ -55,19 +55,23 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onSaveButtonClick(NotesEntity notesEntity) {
+    public void onSaveNoteNoteFragment(NotesEntity notesEntity) {
         NotesListFragment notesListFragment = (NotesListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST_FRAGMENT);
-        notesListFragment.onNoteCreated(notesEntity);
+        notesListFragment.onNoteEdited(notesEntity);
         getSupportFragmentManager().popBackStack();
     }
 
     @Override
-    public void onDeleteButtonClick() {
-
+    public void onDeleteButtonClick(NotesEntity notesEntity) {
+        NotesListFragment notesListFragment = (NotesListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST_FRAGMENT);
+        notesListFragment.onDeleteNote(notesEntity);
+        getSupportFragmentManager().popBackStack();
     }
 
     @Override
-    public void onSaveButtonClick() {
-
+    public void onSaveButtonClick(NotesEntity notesEntity) {
+        NotesListFragment notesListFragment = (NotesListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST_FRAGMENT);
+        notesListFragment.onNoteCreated(notesEntity);
+        getSupportFragmentManager().popBackStack();
     }
 }

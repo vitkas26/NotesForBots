@@ -1,4 +1,4 @@
-package com.example.notesforbots.ui;
+package com.example.notesforbots.ui.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.notesforbots.App;
 import com.example.notesforbots.domain.NotesEntity;
 import com.example.notesforbots.domain.NotesRepo;
+import com.example.notesforbots.ui.adapter.NotesAdapter;
 
 public class SwipeCallback extends ItemTouchHelper.Callback {
 

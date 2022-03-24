@@ -18,6 +18,8 @@ import com.example.notesforbots.App;
 import com.example.notesforbots.R;
 import com.example.notesforbots.domain.NotesEntity;
 import com.example.notesforbots.domain.NotesRepo;
+import com.example.notesforbots.ui.adapter.NotesAdapter;
+import com.example.notesforbots.ui.adapter.SwipeCallback;
 
 public class NotesListFragment extends Fragment {
 
@@ -101,6 +103,16 @@ public class NotesListFragment extends Fragment {
 
     public void onNoteCreated(NotesEntity notesEntity){
         notesRepo.addNote(notesEntity);
+        notesAdapter.setData(notesRepo.getNotes());
+    }
+
+    public void onDeleteNote(NotesEntity notesEntity){
+        notesRepo.deleteNote(notesEntity);
+        notesAdapter.setData(notesRepo.getNotes());
+    }
+
+    public void onNoteEdited(NotesEntity notesEntity){
+        notesRepo.editNotes(notesEntity);
         notesAdapter.setData(notesRepo.getNotes());
     }
 }

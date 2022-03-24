@@ -1,4 +1,4 @@
-package com.example.notesforbots.ui;
+package com.example.notesforbots.ui.adapter;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
