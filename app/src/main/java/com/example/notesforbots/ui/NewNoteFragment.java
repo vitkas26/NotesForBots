@@ -1,20 +1,23 @@
 package com.example.notesforbots.ui;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-import com.example.notesforbots.App;
-import com.example.notesforbots.domain.NotesEntity;
-import com.example.notesforbots.domain.NotesRepo;
 import com.example.notesforbots.R;
+import com.example.notesforbots.domain.NotesEntity;
 
-public class NewNoteActivity extends AppCompatActivity {
+public class NewNoteFragment extends Fragment {
     private EditText titleEditText;
     private EditText notesTextEditText;
     private Button saveButton;
@@ -25,42 +28,61 @@ public class NewNoteActivity extends AppCompatActivity {
     private ImageView greenColorImageView;
     private ImageView orangeColorImageView;
     private NotesEntity notesEntity;
-    private NotesRepo repo;
+    private Controller controller;
+
+    public interface Controller {
+        void onCancelButtonClick();
+        void onSaveButtonClick(NotesEntity notesEntity);
+
+    }
+
+    public NewNoteFragment(){}
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.new_note);
-        initViews();
-        repo = App.get().localNotesRepo;
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof NewNoteFragment.Controller){
+            controller = (Controller) context;
+        }else {
+            throw new IllegalStateException("Activity must implement NewNoteFragment.Controller");
+        }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.new_note, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initViews(view);
         notesEntity = new NotesEntity("", "");
     }
 
-    private void initViews() {
-        titleEditText = findViewById(R.id.title_edit_text);
-        notesTextEditText = findViewById(R.id.notes_text_edit_text);
-        saveButton = findViewById(R.id.save_button);
-        cancelButton = findViewById(R.id.cancel_button);
-        blackColorImageView = findViewById(R.id.black_color_image_view);
-        blueColorImageView = findViewById(R.id.blue_color_image_view);
-        whiteColorImageView = findViewById(R.id.white_color_image_view);
-        greenColorImageView = findViewById(R.id.green_color_image_view);
-        orangeColorImageView = findViewById(R.id.orange_color_image_view);
+    private void initViews(View view) {
+        titleEditText = view.findViewById(R.id.title_edit_text);
+        notesTextEditText = view.findViewById(R.id.notes_text_edit_text);
+        saveButton = view.findViewById(R.id.save_button);
+        cancelButton = view.findViewById(R.id.cancel_button);
+        blackColorImageView = view.findViewById(R.id.black_color_image_view);
+        blueColorImageView = view.findViewById(R.id.blue_color_image_view);
+        whiteColorImageView = view.findViewById(R.id.white_color_image_view);
+        greenColorImageView = view.findViewById(R.id.green_color_image_view);
+        orangeColorImageView = view.findViewById(R.id.orange_color_image_view);
         setClickListeners();
     }
 
     private void setClickListeners() {
         cancelButton.setOnClickListener(view -> {
-            setResult(RESULT_CANCELED);
-            finish();
+        controller.onCancelButtonClick();
         });
         saveButton.setOnClickListener(v -> {
             notesEntity.setNotesTitle(String.valueOf(titleEditText.getText()));
             notesEntity.setNotesText(String.valueOf(notesTextEditText.getText()));
             setColor(notesEntity);
-            repo.addNote(notesEntity);
-            setResult(RESULT_OK);
-            finish();
+            controller.onSaveButtonClick(notesEntity);
         });
         blackColorImageView.setOnClickListener(v -> notesEntity.setNotesColor(Color.parseColor("#FF000000")));
         blueColorImageView.setOnClickListener(v -> notesEntity.setNotesColor(Color.parseColor("#FF3700B3")));

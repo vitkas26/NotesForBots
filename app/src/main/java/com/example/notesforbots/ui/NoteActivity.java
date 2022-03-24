@@ -2,7 +2,6 @@ package com.example.notesforbots.ui;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,7 +30,7 @@ public class NoteActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.note_activity);
+        setContentView(R.layout.note_fragment);
         repo = App.get().localNotesRepo;
         initViews();
         fillNote();

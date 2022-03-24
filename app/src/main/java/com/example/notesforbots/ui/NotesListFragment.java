@@ -1,6 +1,6 @@
 package com.example.notesforbots.ui;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +25,24 @@ public class NotesListFragment extends Fragment {
     private Button newNoteButton;
     private NotesAdapter notesAdapter;
     private NotesRepo notesRepo;
+    private Controller controller;
+
+    public interface Controller {
+        void createNewNote();
+        void showNote(NotesEntity notesEntity);
+    }
+
+    public NotesListFragment(){}
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof Controller){
+            controller = (Controller) context;
+        }else{
+            throw new IllegalStateException("Activity must implement NotesListFragment.Controller");
+        }
+    }
 
     @Nullable
     @Override
@@ -43,8 +61,7 @@ public class NotesListFragment extends Fragment {
     private void initButton(View view) {
         newNoteButton = view.findViewById(R.id.notes_list_fragment__new_note_button);
         newNoteButton.setOnClickListener(v -> {
-//            Intent intent = new Intent(this, NewNoteActivity.class);
-//            startActivityForResult(intent, NEW_NOTE_REQUEST_CODE);
+           controller.createNewNote();
         });
     }
 
@@ -56,9 +73,7 @@ public class NotesListFragment extends Fragment {
         notesAdapter.setOnClickListener(new NotesAdapter.OnNoteClickListener(){
             @Override
             public void onClickItem(NotesEntity notesEntity) {
-//                Intent intent = new Intent(notes_list_fragment.this, NoteActivity.class);
-//                intent.putExtra(NoteActivity.EXTRA_KEY, notesEntity);
-//                startActivityForResult(intent, NEW_NOTE_REQUEST_CODE);
+                controller.showNote(notesEntity);
             }
 
             @Override
@@ -82,5 +97,10 @@ public class NotesListFragment extends Fragment {
         ItemTouchHelper.Callback callback = new SwipeCallback(notesAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    public void onNoteCreated(NotesEntity notesEntity){
+        notesRepo.addNote(notesEntity);
+        notesAdapter.setData(notesRepo.getNotes());
     }
 }
