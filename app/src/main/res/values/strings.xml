@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">NotesForBots</string>
+    <string name="new_note">New note</string>
+    <string name="header_hint">Header</string>
+    <string name="note_hint">Your note text here !</string>
+    <string name="last_edited">26.12.1988</string>
+    <string name="title_hint">Enter Your Title Here</string>
+    <string name="save_button_text">Save</string>
+    <string name="cancel_button_text">Cancel</string>
+    <string name="delete_button_text">Delete</string>
 </resources>
