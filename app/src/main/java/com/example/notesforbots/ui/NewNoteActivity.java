@@ -15,17 +15,17 @@ import com.example.notesforbots.domain.NotesRepo;
 import com.example.notesforbots.R;
 
 public class NewNoteActivity extends AppCompatActivity {
-    EditText titleEditText;
-    EditText notesTextEditText;
-    Button saveButton;
-    Button cancelButton;
-    ImageView blackColorImageView;
-    ImageView blueColorImageView;
-    ImageView whiteColorImageView;
-    ImageView greenColorImageView;
-    ImageView orangeColorImageView;
-    NotesEntity notesEntity;
-    NotesRepo repo;
+    private EditText titleEditText;
+    private EditText notesTextEditText;
+    private Button saveButton;
+    private Button cancelButton;
+    private ImageView blackColorImageView;
+    private ImageView blueColorImageView;
+    private ImageView whiteColorImageView;
+    private ImageView greenColorImageView;
+    private ImageView orangeColorImageView;
+    private NotesEntity notesEntity;
+    private NotesRepo repo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
