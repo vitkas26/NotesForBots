@@ -46,6 +46,10 @@ public class NewNoteActivity extends AppCompatActivity {
         whiteColorImageView = findViewById(R.id.white_color_image_view);
         greenColorImageView = findViewById(R.id.green_color_image_view);
         orangeColorImageView = findViewById(R.id.orange_color_image_view);
+        setClickListeners();
+    }
+
+    private void setClickListeners() {
         cancelButton.setOnClickListener(view -> {
             setResult(RESULT_CANCELED);
             finish();

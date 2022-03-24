@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesViewHolder> {
-    List<NotesEntity> data = new ArrayList<>();
+    private List<NotesEntity> data = new ArrayList<>();
     OnNoteClickListener onNoteClickListener;
 
     @NonNull
