@@ -15,17 +15,17 @@ import com.example.notesforbots.domain.NotesRepo;
 
 public class NoteActivity extends AppCompatActivity {
     public static final String EXTRA_KEY = "NOTE_ENTITY_KEY";
-    EditText titleEditText;
-    EditText notesTextEditText;
-    Button saveButton;
-    Button deleteButton;
-    ImageView blackColorImageView;
-    ImageView blueColorImageView;
-    ImageView whiteColorImageView;
-    ImageView greenColorImageView;
-    ImageView orangeColorImageView;
-    NotesRepo repo;
-    NotesEntity notesEntity;
+    private EditText titleEditText;
+    private EditText notesTextEditText;
+    private Button saveButton;
+    private Button deleteButton;
+    private ImageView blackColorImageView;
+    private ImageView blueColorImageView;
+    private ImageView whiteColorImageView;
+    private ImageView greenColorImageView;
+    private ImageView orangeColorImageView;
+    private NotesRepo repo;
+    private NotesEntity notesEntity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +53,10 @@ public class NoteActivity extends AppCompatActivity {
         whiteColorImageView = findViewById(R.id.white_color_image_view);
         greenColorImageView = findViewById(R.id.green_color_image_view);
         orangeColorImageView = findViewById(R.id.orange_color_image_view);
+        setClickListeners();
+    }
+
+    private void setClickListeners() {
         saveButton.setOnClickListener(v -> {
             repo.editNotes(getEditedNote());
             setResult(RESULT_OK);
