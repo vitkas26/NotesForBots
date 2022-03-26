@@ -46,7 +46,7 @@ public class LocalNotesRepoImpl implements NotesRepo {
                 return i;
             }
         }
-        return -1;
+        throw new ArrayIndexOutOfBoundsException("No elements in a repo");
     }
 
     @Override
