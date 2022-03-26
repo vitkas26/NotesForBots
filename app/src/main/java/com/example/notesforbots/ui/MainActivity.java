@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements
             Fragment notesListFragment = new NotesListFragment();
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.activity_main__fragment_container, notesListFragment, TAG_NOTE_LIST_FRAGMENT)
+                    .add(R.id.activity_main__first_fragment_container, notesListFragment, TAG_NOTE_LIST_FRAGMENT)
                     .commit();
         }
     }
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements
         Fragment newNoteFragment = new NewNoteFragment();
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.activity_main__fragment_container, newNoteFragment)
+                .add(R.id.activity_main__second_fragment_container, newNoteFragment)
                 .addToBackStack(null)
                 .commit();
     }
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements
         NoteFragment noteFragment = NoteFragment.newInstance(notesEntity);
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.activity_main__fragment_container, noteFragment)
+                .add(R.id.activity_main__second_fragment_container, noteFragment)
                 .addToBackStack(null)
                 .commit();
     }
