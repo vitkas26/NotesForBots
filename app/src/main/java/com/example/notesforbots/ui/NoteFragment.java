@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -91,9 +92,11 @@ public class NoteFragment extends Fragment {
         saveButton.setOnClickListener(v -> {
             notesEntity = getEditedNote();
             controller.onSaveNoteNoteFragment(notesEntity);
+            Toast.makeText(getContext(), "Заметка успешно отредактирована", Toast.LENGTH_SHORT).show();
         });
         deleteButton.setOnClickListener(v -> {
             controller.onDeleteButtonClick(notesEntity);
+
         });
         blackColorImageView.setOnClickListener(v -> notesEntity.setNotesColor(Color.parseColor("#FF000000")));
         blueColorImageView.setOnClickListener(v -> notesEntity.setNotesColor(Color.parseColor("#FF3700B3")));
