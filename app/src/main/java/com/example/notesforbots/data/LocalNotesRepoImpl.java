@@ -40,7 +40,7 @@ public class LocalNotesRepoImpl implements NotesRepo {
         localNotesRepo.remove(findPosition(notesEntity));
     }
 
-    private int findPosition(NotesEntity notesEntity) {
+    public int findPosition(NotesEntity notesEntity) {
         for (int i = 0; i < localNotesRepo.size(); i++) {
             if (localNotesRepo.get(i).getId().equals(notesEntity.getId())) {
                 return i;

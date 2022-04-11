@@ -1,6 +1,7 @@
 package com.example.notesforbots.ui;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +22,8 @@ import com.example.notesforbots.domain.NotesEntity;
 import com.example.notesforbots.domain.NotesRepo;
 import com.example.notesforbots.ui.adapter.NotesAdapter;
 import com.example.notesforbots.ui.adapter.SwipeCallback;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 public class NotesListFragment extends Fragment {
 
@@ -31,17 +35,20 @@ public class NotesListFragment extends Fragment {
 
     public interface Controller {
         void createNewNote();
+
         void showNote(NotesEntity notesEntity);
     }
 
-    public NotesListFragment(){}
+    public NotesListFragment() {
+    }
 
+    //controller is used when you want to open another fragment from main activity with noteItem
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof Controller){
+        if (context instanceof Controller) {
             controller = (Controller) context;
-        }else{
+        } else {
             throw new IllegalStateException("Activity must implement NotesListFragment.Controller");
         }
     }
@@ -63,7 +70,7 @@ public class NotesListFragment extends Fragment {
     private void initButton(View view) {
         newNoteButton = view.findViewById(R.id.notes_list_fragment__new_note_button);
         newNoteButton.setOnClickListener(v -> {
-           controller.createNewNote();
+            controller.createNewNote();
         });
     }
 
@@ -72,7 +79,7 @@ public class NotesListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         notesAdapter = new NotesAdapter();
-        notesAdapter.setOnClickListener(new NotesAdapter.OnNoteClickListener(){
+        notesAdapter.setOnClickListener(new NotesAdapter.OnNoteClickListener() {
             @Override
             public void onClickItem(NotesEntity notesEntity) {
                 controller.showNote(notesEntity);
@@ -80,39 +87,57 @@ public class NotesListFragment extends Fragment {
 
             @Override
             public void onDeleteItem(NotesEntity notesEntity) {
-                notesRepo.deleteNote(notesEntity);
-                notesAdapter.deleteItem(notesEntity.getId());
+                AlertDialogFragment alertDialogFragment = AlertDialogFragment.newInstance(notesEntity);
+                alertDialogFragment.show(requireActivity().getSupportFragmentManager(), "deleteDialogue");
             }
 
             @Override
             public void onRefreshItem(NotesEntity notesEntity) {
+                String message;
+                if (notesRepo.findPosition(notesEntity) != 0) {
+                    message = "Заметка поднята вверх";
+                } else {
+                    message = "Заметка на самом верху";
+                }
+                Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction("Закрыть", snackView -> {
+                    snackbar.dismiss();
+                })
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_FADE)
+                        .setActionTextColor(Color.YELLOW)
+                        .setTextColor(Color.WHITE)
+                        .setBackgroundTint(Color.BLACK)
+                        .show();
                 notesRepo.swapNote(notesEntity);
                 notesAdapter.setData(notesRepo.getNotes());
             }
-
         });
         notesAdapter.setData(notesRepo.getNotes());
         recyclerView.setAdapter(notesAdapter);
     }
 
     private void initSwapAction() {
-        ItemTouchHelper.Callback callback = new SwipeCallback(notesAdapter);
+        ItemTouchHelper.Callback callback = new SwipeCallback(notesAdapter, requireActivity());
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerView);
     }
 
-    public void onNoteCreated(NotesEntity notesEntity){
+    public void onNoteCreated(NotesEntity notesEntity) {
         notesRepo.addNote(notesEntity);
         notesAdapter.setData(notesRepo.getNotes());
     }
 
-    public void onDeleteNote(NotesEntity notesEntity){
+    public void onDeleteNote(NotesEntity notesEntity) {
         notesRepo.deleteNote(notesEntity);
         notesAdapter.setData(notesRepo.getNotes());
     }
 
-    public void onNoteEdited(NotesEntity notesEntity){
+    public void onNoteEdited(NotesEntity notesEntity) {
         notesRepo.editNotes(notesEntity);
+        notesAdapter.setData(notesRepo.getNotes());
+    }
+
+    public void refreshNoteList(){
         notesAdapter.setData(notesRepo.getNotes());
     }
 }

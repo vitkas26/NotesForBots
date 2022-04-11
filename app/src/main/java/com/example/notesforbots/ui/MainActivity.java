@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.notesforbots.R;
 import com.example.notesforbots.domain.NotesEntity;
@@ -49,29 +50,35 @@ public class MainActivity extends AppCompatActivity implements
                 .commit();
     }
 
-    @Override
-    public void onCancelButtonClick() {
-        getSupportFragmentManager().popBackStack();
-    }
-
-    @Override
-    public void onSaveNoteNoteFragment(NotesEntity notesEntity) {
-        NotesListFragment notesListFragment = (NotesListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST_FRAGMENT);
-        notesListFragment.onNoteEdited(notesEntity);
-        getSupportFragmentManager().popBackStack();
-    }
-
-    @Override
-    public void onDeleteButtonClick(NotesEntity notesEntity) {
-        NotesListFragment notesListFragment = (NotesListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST_FRAGMENT);
-        notesListFragment.onDeleteNote(notesEntity);
-        getSupportFragmentManager().popBackStack();
-    }
-
+    //get action from note fragment when save button clicked
     @Override
     public void onSaveButtonClick(NotesEntity notesEntity) {
         NotesListFragment notesListFragment = (NotesListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST_FRAGMENT);
         notesListFragment.onNoteCreated(notesEntity);
+        getSupportFragmentManager().popBackStack();
+    }
+
+    //get action from note fragment when delete button clicked
+    @Override
+    public void onDeleteButtonClick(NotesEntity notesEntity) {
+        NotesListFragment notesListFragment = (NotesListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST_FRAGMENT);
+        AlertDialogFragment alertDialogFragment = AlertDialogFragment.newInstance(notesEntity);
+        alertDialogFragment.show(this.getSupportFragmentManager(), "deleteDialogue");
+        getSupportFragmentManager().popBackStack();
+    }
+
+    //get action from new note fragment when cancel button clicked
+    @Override
+    public void onCancelButtonClick() {
+        Toast.makeText(this, "Создание заметки было отклонено", Toast.LENGTH_SHORT).show();
+        getSupportFragmentManager().popBackStack();
+    }
+
+    //get action from new note fragment when save button clicked
+    @Override
+    public void onSaveNoteNoteFragment(NotesEntity notesEntity) {
+        NotesListFragment notesListFragment = (NotesListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST_FRAGMENT);
+        notesListFragment.onNoteEdited(notesEntity);
         getSupportFragmentManager().popBackStack();
     }
 }
