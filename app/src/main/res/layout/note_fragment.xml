@@ -13,12 +13,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/half_padding">
 
         <EditText
-            android:id="@+id/note_activity__title_edit_text"
+            android:id="@+id/note_list_fragment__title_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/title_hint"
@@ -26,7 +26,7 @@
             android:inputType="text" />
 
         <EditText
-            android:id="@+id/note_activity__notes_text_edit_text"
+            android:id="@+id/note_list_fragment__notes_text_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/note_hint"
@@ -40,7 +40,7 @@
         android:layout_gravity="center">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/note_activity__save_button"
+            android:id="@+id/note_list_fragment__save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -49,7 +49,7 @@
             android:textColor="@color/white" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/note_activity__delete_button"
+            android:id="@+id/note_list_fragment__delete_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -97,6 +97,18 @@
             android:layout_height="@dimen/color_box_size"
             android:layout_margin="@dimen/half_margin"
             android:background="@color/orange" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/notes_list_fragment__color_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/choose_color"/>
     </LinearLayout>
 
 </LinearLayout>

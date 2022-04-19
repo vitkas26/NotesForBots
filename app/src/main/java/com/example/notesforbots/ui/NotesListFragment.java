@@ -67,16 +67,16 @@ public class NotesListFragment extends Fragment {
         notesRepo = App.get().localNotesRepo;
         initToolbar();
         initRecyclerView(view);
-        initButton(view);
+//        initButton(view);
         initSwapAction();
     }
 
-    private void initButton(View view) {
-        newNoteButton = view.findViewById(R.id.notes_list_fragment__new_note_button);
-        newNoteButton.setOnClickListener(v -> {
-            controller.createNewNote();
-        });
-    }
+//    private void initButton(View view) {
+//        newNoteButton = view.findViewById(R.id.notes_list_fragment__new_note_button);
+//        newNoteButton.setOnClickListener(v -> {
+//            controller.createNewNote();
+//        });
+//    }
 
     private void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.notes_list_fragment__recycler_view);

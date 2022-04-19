@@ -4,23 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#A6E89F"
+    android:orientation="vertical"
     tools:context=".ui.MainActivity">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/notes_list_fragment__toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/teal_200"/>
+        android:background="@color/teal_200" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/notes_list_fragment__new_note_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/new_note"
-        android:backgroundTint="#E80A9E"
-        android:textColor="@color/white"
-        android:layout_gravity="center"/>
+    <!--    <androidx.appcompat.widget.AppCompatButton-->
+    <!--        android:id="@+id/notes_list_fragment__new_note_button"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="@string/new_note"-->
+    <!--        android:backgroundTint="#E80A9E"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:layout_gravity="center"/>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notes_list_fragment__recycler_view"

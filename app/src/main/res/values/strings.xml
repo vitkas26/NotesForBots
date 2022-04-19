@@ -11,4 +11,10 @@
     <string name="menu_save">Сохранить</string>
     <string name="menu_cancel">Отменить</string>
     <string name="menu_delete">Удалить</string>
+    <string name="color_black">black</string>
+    <string name="color_blue">blue</string>
+    <string name="color_white">white</string>
+    <string name="color_green">green</string>
+    <string name="color_orange">orange</string>
+    <string name="choose_color">Choose Color</string>
 </resources>
