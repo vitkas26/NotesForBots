@@ -1,11 +1,11 @@
 package com.example.notesforbots.ui;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,9 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationChannelCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.example.notesforbots.R;
@@ -70,9 +68,31 @@ public class NoteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initToolbar();
         notesEntity = getArguments().getParcelable(NOTES_ENTITY_KEY);
         initViews(view);
         fillNote();
+    }
+
+    private void initToolbar() {
+        final Toolbar toolbar = getView().findViewById(R.id.notes_list_fragment__toolbar);
+        toolbar.setTitle("Редактирование заметки");
+        initMenu(toolbar);
+    }
+
+    private void initMenu(Toolbar toolbar){
+        final MenuInflater menuInflater = getActivity().getMenuInflater();
+        final Menu menu = toolbar.getMenu();
+        menuInflater.inflate(R.menu.note_menu, menu);
+        menu.findItem(R.id.note_menu__menu_save).setOnMenuItemClickListener(v->{
+            getEditedNote();
+            controller.onSaveNoteNoteFragment(notesEntity);
+            return true;
+        });
+        menu.findItem(R.id.note_menu__menu_delete).setOnMenuItemClickListener(v->{
+            controller.onDeleteButtonClick(notesEntity);
+            return true;
+        });
     }
 
     private void fillNote() {

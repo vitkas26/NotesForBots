@@ -3,25 +3,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple_200"
-    android:orientation="vertical"
-    android:padding="@dimen/half_padding">
+    android:orientation="vertical">
 
-
-    <EditText
-        android:id="@+id/note_activity__title_edit_text"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/notes_list_fragment__toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/title_hint"
-        android:importantForAutofill="no"
-        android:inputType="text" />
+        android:background="@color/purple_500" />
 
-    <EditText
-        android:id="@+id/note_activity__notes_text_edit_text"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/note_hint"
-        android:importantForAutofill="no"
-        android:inputType="textMultiLine" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/half_padding">
+
+        <EditText
+            android:id="@+id/note_activity__title_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_hint"
+            android:importantForAutofill="no"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/note_activity__notes_text_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/note_hint"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"

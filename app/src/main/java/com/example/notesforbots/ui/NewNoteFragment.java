@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -42,18 +46,20 @@ public class NewNoteFragment extends Fragment {
 
     public interface Controller {
         void onCancelButtonClick();
+
         void onSaveButtonClick(NotesEntity notesEntity);
 
     }
 
-    public NewNoteFragment(){}
+    public NewNoteFragment() {
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof NewNoteFragment.Controller){
+        if (context instanceof NewNoteFragment.Controller) {
             controller = (Controller) context;
-        }else {
+        } else {
             throw new IllegalStateException("Activity must implement NewNoteFragment.Controller");
         }
     }
@@ -67,6 +73,7 @@ public class NewNoteFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initToolbar();
         initViews(view);
         createNotificationChannel();
         notesEntity = new NotesEntity("", "");
@@ -87,7 +94,7 @@ public class NewNoteFragment extends Fragment {
 
     private void setClickListeners() {
         cancelButton.setOnClickListener(view -> {
-        controller.onCancelButtonClick();
+            controller.onCancelButtonClick();
         });
         saveButton.setOnClickListener(v -> {
             notesEntity.setNotesTitle(String.valueOf(titleEditText.getText()));
@@ -135,5 +142,35 @@ public class NewNoteFragment extends Fragment {
             notesEntity.setTextColor(Color.parseColor("#FF000000"));
             notesEntity.setDateColor(Color.parseColor("#FF000000"));
         }
+    }
+
+    private void initToolbar() {
+        final androidx.appcompat.widget.Toolbar toolbar = getView().findViewById(R.id.new_note__toolbar);
+        toolbar.setTitle("Новая заметка");
+        initMenu(toolbar);
+    }
+
+    private void initMenu(Toolbar toolbar) {
+        final MenuInflater menuInflater = getActivity().getMenuInflater();
+        final Menu menu = toolbar.getMenu();
+        menuInflater.inflate(R.menu.new_note_menu, menu);
+        menu.findItem(R.id.new_note_menu__menu_save).setOnMenuItemClickListener(this::onOptionsItemSelected);
+        menu.findItem(R.id.new_note_menu__menu_cancel).setOnMenuItemClickListener(this::onOptionsItemSelected);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.new_note_menu__menu_save:
+                notesEntity.setNotesTitle(String.valueOf(titleEditText.getText()));
+                notesEntity.setNotesText(String.valueOf(notesTextEditText.getText()));
+                setColor(notesEntity);
+                controller.onSaveButtonClick(notesEntity);
+                return true;
+            case R.id.new_note_menu__menu_cancel:
+                controller.onCancelButtonClick();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
