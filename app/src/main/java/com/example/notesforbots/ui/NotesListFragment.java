@@ -31,7 +31,6 @@ import com.google.android.material.snackbar.Snackbar;
 public class NotesListFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private Button newNoteButton;
     private NotesAdapter notesAdapter;
     private NotesRepo notesRepo;
     private Controller controller;
@@ -67,16 +66,8 @@ public class NotesListFragment extends Fragment {
         notesRepo = App.get().localNotesRepo;
         initToolbar();
         initRecyclerView(view);
-//        initButton(view);
         initSwapAction();
     }
-
-//    private void initButton(View view) {
-//        newNoteButton = view.findViewById(R.id.notes_list_fragment__new_note_button);
-//        newNoteButton.setOnClickListener(v -> {
-//            controller.createNewNote();
-//        });
-//    }
 
     private void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.notes_list_fragment__recycler_view);
