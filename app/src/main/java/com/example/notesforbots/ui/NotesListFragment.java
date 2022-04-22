@@ -91,6 +91,7 @@ public class NotesListFragment extends Fragment {
                 String message;
                 if (notesRepo.findPosition(notesEntity) != 0) {
                     message = "Заметка поднята вверх";
+                    notesRepo.swapNote(notesEntity);
                 } else {
                     message = "Заметка на самом верху";
                 }
@@ -103,7 +104,6 @@ public class NotesListFragment extends Fragment {
                         .setTextColor(Color.WHITE)
                         .setBackgroundTint(Color.BLACK)
                         .show();
-                notesRepo.swapNote(notesEntity);
                 notesAdapter.setData(notesRepo.getNotes());
             }
         });

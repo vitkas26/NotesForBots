@@ -38,7 +38,7 @@ public class SharedPreferenceNotesRepoImpl implements NotesRepo {
 
     @Override
     public void addNote(NotesEntity notesEntity) {
-        ArrayList<NotesEntity> data = getNotes();
+        final ArrayList<NotesEntity> data = getNotes();
         data.add(notesEntity);
         final String jsonString = gson.toJson(data);
         sharedPreferences
@@ -49,7 +49,7 @@ public class SharedPreferenceNotesRepoImpl implements NotesRepo {
 
     @Override
     public void editNotes(NotesEntity notesEntity) {
-        ArrayList<NotesEntity> data = getNotes();
+        final ArrayList<NotesEntity> data = getNotes();
         data.set(findPosition(notesEntity), notesEntity);
         final String jsonString = gson.toJson(data);
         sharedPreferences
@@ -60,7 +60,7 @@ public class SharedPreferenceNotesRepoImpl implements NotesRepo {
 
     @Override
     public void deleteNote(NotesEntity notesEntity) {
-        ArrayList<NotesEntity> data = getNotes();
+        final ArrayList<NotesEntity> data = getNotes();
         data.remove(findPosition(notesEntity));
         final String jsonString = gson.toJson(data);
         sharedPreferences
@@ -70,7 +70,7 @@ public class SharedPreferenceNotesRepoImpl implements NotesRepo {
     }
 
     public int findPosition(NotesEntity notesEntity) {
-        ArrayList<NotesEntity> data = getNotes();
+        final ArrayList<NotesEntity> data = getNotes();
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i).getId().equals(notesEntity.getId())) {
                 return i;
@@ -81,12 +81,10 @@ public class SharedPreferenceNotesRepoImpl implements NotesRepo {
 
     @Override
     public void swapNote(NotesEntity notesEntity) {
-        ArrayList<NotesEntity> data = getNotes();
-        Log.d("@@@", "swapNote: " + notesEntity.getId());
+        final ArrayList<NotesEntity> data = getNotes();
         try {
             Collections.swap(data, findPosition(notesEntity), findPosition(notesEntity) - 1);
             final String jsonString = gson.toJson(data);
-            Log.d("@@@", "swapNote: " + notesEntity.getId());
             sharedPreferences
                     .edit()
                     .putString(SHARED_PREFERENCES_NOTES_ENTITY, jsonString)
