@@ -1,5 +1,7 @@
 package com.example.notesforbots.ui;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,9 +11,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationChannelCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.notesforbots.R;
@@ -91,6 +97,7 @@ public class NoteFragment extends Fragment {
         saveButton.setOnClickListener(v -> {
             notesEntity = getEditedNote();
             controller.onSaveNoteNoteFragment(notesEntity);
+            Toast.makeText(getContext(), "Заметка успешно сохранена", Toast.LENGTH_SHORT).show();
         });
         deleteButton.setOnClickListener(v -> {
             controller.onDeleteButtonClick(notesEntity);
@@ -101,6 +108,7 @@ public class NoteFragment extends Fragment {
         greenColorImageView.setOnClickListener(v -> notesEntity.setNotesColor(Color.parseColor("#FF018786")));
         orangeColorImageView.setOnClickListener(v -> notesEntity.setNotesColor(Color.parseColor("#FF9800")));
     }
+
 
     private NotesEntity getEditedNote() {
         notesEntity.setNotesText(notesTextEditText.getText().toString());

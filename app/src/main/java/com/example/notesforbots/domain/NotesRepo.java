@@ -8,4 +8,5 @@ public interface NotesRepo {
     void editNotes(NotesEntity notesEntity);
     void deleteNote(NotesEntity notesEntity);
     void swapNote(NotesEntity notesEntity);
+    int findPosition(NotesEntity notesEntity);
 }

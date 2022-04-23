@@ -1,6 +1,10 @@
 package com.example.notesforbots.ui;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,9 +13,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationChannelCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.notesforbots.R;
@@ -29,6 +37,8 @@ public class NewNoteFragment extends Fragment {
     private ImageView orangeColorImageView;
     private NotesEntity notesEntity;
     private Controller controller;
+    private static final int NOTIFICATION_ID = 888;
+    private static final String CHANNEL_ID = "CHANNEL_ID";
 
     public interface Controller {
         void onCancelButtonClick();
@@ -58,6 +68,7 @@ public class NewNoteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
+        createNotificationChannel();
         notesEntity = new NotesEntity("", "");
     }
 
@@ -83,12 +94,34 @@ public class NewNoteFragment extends Fragment {
             notesEntity.setNotesText(String.valueOf(notesTextEditText.getText()));
             setColor(notesEntity);
             controller.onSaveButtonClick(notesEntity);
+
+            final Intent intent = new Intent(getContext(), MainActivity.class);
+            final PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0, intent, 0);
+            Notification notification = new NotificationCompat.Builder(getContext(), CHANNEL_ID)
+                    .setContentTitle("Уведомление о замтеке")
+                    .setContentText("Новая заметка успешно создана")
+                    .setColorized(true)
+                    .setContentIntent(pendingIntent)
+                    .setColor(Color.GREEN)
+                    .setSmallIcon(R.drawable.ic_baseline_speaker_notes_24)
+                    .build();
+            NotificationManagerCompat.from(getContext()).notify(NOTIFICATION_ID, notification);
         });
         blackColorImageView.setOnClickListener(v -> notesEntity.setNotesColor(Color.parseColor("#FF000000")));
         blueColorImageView.setOnClickListener(v -> notesEntity.setNotesColor(Color.parseColor("#FF3700B3")));
         whiteColorImageView.setOnClickListener(v -> notesEntity.setNotesColor(Color.parseColor("#FFFFFFFF")));
         greenColorImageView.setOnClickListener(v -> notesEntity.setNotesColor(Color.parseColor("#FF018786")));
         orangeColorImageView.setOnClickListener(v -> notesEntity.setNotesColor(Color.parseColor("#FF9800")));
+    }
+
+    private void createNotificationChannel() {
+        NotificationChannelCompat notificationChannel = new NotificationChannelCompat.Builder(
+                CHANNEL_ID,
+                NotificationManager.IMPORTANCE_MAX)
+                .setDescription("Канад для заметок")
+                .setName("Сообщения из заметок")
+                .build();
+        NotificationManagerCompat.from(getContext()).createNotificationChannel(notificationChannel);
     }
 
     private void setColor(NotesEntity notesEntity) {
