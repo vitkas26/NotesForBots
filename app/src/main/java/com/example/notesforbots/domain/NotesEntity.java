@@ -30,12 +30,19 @@ public class NotesEntity implements Parcelable {
         dateColor = Color.parseColor("#FFFFFFFF");
     }
 
+    public NotesEntity() {
+    }
+
     public int getDateColor() {
         return dateColor;
     }
 
     public void setDateColor(int dateColor) {
         this.dateColor = dateColor;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getTextColor() {
