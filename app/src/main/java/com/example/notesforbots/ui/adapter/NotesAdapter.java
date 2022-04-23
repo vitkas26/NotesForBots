@@ -1,4 +1,4 @@
-package com.example.notesforbots.ui;
+package com.example.notesforbots.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

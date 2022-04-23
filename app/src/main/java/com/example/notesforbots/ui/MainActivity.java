@@ -1,90 +1,77 @@
 package com.example.notesforbots.ui;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
-import com.example.notesforbots.App;
-import com.example.notesforbots.domain.NotesEntity;
-import com.example.notesforbots.domain.NotesRepo;
-import com.example.notesforbots.R;
+import androidx.fragment.app.Fragment;
 
-public class MainActivity extends AppCompatActivity {
-    private static final int NEW_NOTE_REQUEST_CODE = 777;
-    private static final int NOTE_ACTIVITY_REQUEST_CODE = 888;
-    RecyclerView recyclerView;
-    Button newNoteButton;
-    NotesAdapter notesAdapter;
-    NotesRepo notesRepo;
+import android.os.Bundle;
+
+import com.example.notesforbots.R;
+import com.example.notesforbots.domain.NotesEntity;
+
+public class MainActivity extends AppCompatActivity implements
+        NotesListFragment.Controller,
+        NewNoteFragment.Controller,
+        NoteFragment.Controller {
+
+    private final static String TAG_NOTE_LIST_FRAGMENT = "TAG_NOTE_LIST_FRAGMENT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        notesRepo = App.get().localNotesRepo;
-        initRecyclerView();
-        initButton();
-        initSwapAction();
-    }
-
-    private void initButton() {
-        newNoteButton = findViewById(R.id.new_note_button);
-        newNoteButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, NewNoteActivity.class);
-            startActivityForResult(intent, NEW_NOTE_REQUEST_CODE);
-        });
-    }
-
-    private void initRecyclerView() {
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        notesAdapter = new NotesAdapter();
-        notesAdapter.setOnClickListener(new NotesAdapter.OnNoteClickListener(){
-            @Override
-            public void onClickItem(NotesEntity notesEntity) {
-                Intent intent = new Intent(MainActivity.this, NoteActivity.class);
-                intent.putExtra(NoteActivity.EXTRA_KEY, notesEntity);
-                startActivityForResult(intent, NEW_NOTE_REQUEST_CODE);
-            }
-
-            @Override
-            public void onDeleteItem(NotesEntity notesEntity) {
-                notesRepo.deleteNote(notesEntity);
-                notesAdapter.deleteItem(notesEntity.getId());
-            }
-
-            @Override
-            public void onRefreshItem(NotesEntity notesEntity) {
-                notesRepo.swapNote(notesEntity);
-                notesAdapter.setData(notesRepo.getNotes());
-            }
-
-        });
-        notesAdapter.setData(notesRepo.getNotes());
-        recyclerView.setAdapter(notesAdapter);
-    }
-
-    private void initSwapAction() {
-        ItemTouchHelper.Callback callback = new SwipeCallback(notesAdapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(recyclerView);
+        if (savedInstanceState == null) {
+            Fragment notesListFragment = new NotesListFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.activity_main__first_fragment_container, notesListFragment, TAG_NOTE_LIST_FRAGMENT)
+                    .commit();
+        }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void createNewNote() {
+        Fragment newNoteFragment = new NewNoteFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.activity_main__second_fragment_container, newNoteFragment)
+                .addToBackStack(null)
+                .commit();
+    }
 
-        if (requestCode == NEW_NOTE_REQUEST_CODE || requestCode == NOTE_ACTIVITY_REQUEST_CODE
-                && resultCode == RESULT_OK) {
-            notesAdapter.setData(notesRepo.getNotes());
-        } else {
-            throw new IllegalArgumentException();
-        }
+    @Override
+    public void showNote(NotesEntity notesEntity) {
+        NoteFragment noteFragment = NoteFragment.newInstance(notesEntity);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.activity_main__second_fragment_container, noteFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onCancelButtonClick() {
+        getSupportFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void onSaveNoteNoteFragment(NotesEntity notesEntity) {
+        NotesListFragment notesListFragment = (NotesListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST_FRAGMENT);
+        notesListFragment.onNoteEdited(notesEntity);
+        getSupportFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void onDeleteButtonClick(NotesEntity notesEntity) {
+        NotesListFragment notesListFragment = (NotesListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST_FRAGMENT);
+        notesListFragment.onDeleteNote(notesEntity);
+        getSupportFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void onSaveButtonClick(NotesEntity notesEntity) {
+        NotesListFragment notesListFragment = (NotesListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST_FRAGMENT);
+        notesListFragment.onNoteCreated(notesEntity);
+        getSupportFragmentManager().popBackStack();
     }
 }

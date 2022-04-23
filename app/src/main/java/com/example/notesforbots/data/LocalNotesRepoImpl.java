@@ -26,7 +26,7 @@ public class LocalNotesRepoImpl implements NotesRepo {
     }
 
     @Override
-    public void addNotes(NotesEntity notesEntity) {
+    public void addNote(NotesEntity notesEntity) {
         localNotesRepo.add(notesEntity);
     }
 
