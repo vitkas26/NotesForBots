@@ -1,23 +1,22 @@
 package com.example.notesforbots.ui;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationChannelCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.example.notesforbots.R;
@@ -29,6 +28,7 @@ public class NoteFragment extends Fragment {
     private EditText notesTextEditText;
     private Button saveButton;
     private Button deleteButton;
+    private Button colorButton;
     private ImageView blackColorImageView;
     private ImageView blueColorImageView;
     private ImageView whiteColorImageView;
@@ -39,10 +39,11 @@ public class NoteFragment extends Fragment {
 
     public interface Controller {
         void onDeleteButtonClick(NotesEntity notesEntity);
+
         void onSaveNoteNoteFragment(NotesEntity notesEntity);
     }
 
-    public static NoteFragment newInstance (NotesEntity notesEntity) {
+    public static NoteFragment newInstance(NotesEntity notesEntity) {
         NoteFragment noteFragment = new NoteFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(NOTES_ENTITY_KEY, notesEntity);
@@ -70,9 +71,31 @@ public class NoteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initToolbar();
         notesEntity = getArguments().getParcelable(NOTES_ENTITY_KEY);
         initViews(view);
         fillNote();
+    }
+
+    private void initToolbar() {
+        final Toolbar toolbar = getView().findViewById(R.id.notes_list_fragment__toolbar);
+        toolbar.setTitle("Редактирование заметки");
+        initMenu(toolbar);
+    }
+
+    private void initMenu(Toolbar toolbar) {
+        final MenuInflater menuInflater = getActivity().getMenuInflater();
+        final Menu menu = toolbar.getMenu();
+        menuInflater.inflate(R.menu.note_menu, menu);
+        menu.findItem(R.id.note_menu__menu_save).setOnMenuItemClickListener(v -> {
+            getEditedNote();
+            controller.onSaveNoteNoteFragment(notesEntity);
+            return true;
+        });
+        menu.findItem(R.id.note_menu__menu_delete).setOnMenuItemClickListener(v -> {
+            controller.onDeleteButtonClick(notesEntity);
+            return true;
+        });
     }
 
     private void fillNote() {
@@ -81,15 +104,16 @@ public class NoteFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        titleEditText = view.findViewById(R.id.note_activity__title_edit_text);
-        notesTextEditText = view.findViewById(R.id.note_activity__notes_text_edit_text);
-        saveButton = view.findViewById(R.id.note_activity__save_button);
-        deleteButton = view.findViewById(R.id.note_activity__delete_button);
+        titleEditText = view.findViewById(R.id.note_list_fragment__title_edit_text);
+        notesTextEditText = view.findViewById(R.id.note_list_fragment__notes_text_edit_text);
+        saveButton = view.findViewById(R.id.note_list_fragment__save_button);
+        deleteButton = view.findViewById(R.id.note_list_fragment__delete_button);
         blackColorImageView = view.findViewById(R.id.black_color_image_view);
         blueColorImageView = view.findViewById(R.id.blue_color_image_view);
         whiteColorImageView = view.findViewById(R.id.white_color_image_view);
         greenColorImageView = view.findViewById(R.id.green_color_image_view);
         orangeColorImageView = view.findViewById(R.id.orange_color_image_view);
+        colorButton = view.findViewById(R.id.notes_list_fragment__color_button);
         setClickListeners();
     }
 
@@ -107,6 +131,38 @@ public class NoteFragment extends Fragment {
         whiteColorImageView.setOnClickListener(v -> notesEntity.setNotesColor(Color.parseColor("#FFFFFFFF")));
         greenColorImageView.setOnClickListener(v -> notesEntity.setNotesColor(Color.parseColor("#FF018786")));
         orangeColorImageView.setOnClickListener(v -> notesEntity.setNotesColor(Color.parseColor("#FF9800")));
+        colorButton.setOnClickListener(v -> {
+            PopupMenu popupMenu = getPopupMenu(v);
+            popupMenu.show();
+        });
+    }
+
+    @NonNull
+    private PopupMenu getPopupMenu(View v) {
+        PopupMenu popupMenu = new PopupMenu(getContext(), v);
+        popupMenu.inflate(R.menu.color_menu);
+        Menu colorMenu = popupMenu.getMenu();
+        colorMenu.findItem(R.id.black_menu_item).setOnMenuItemClickListener(menuItem -> {
+            notesEntity.setNotesColor(Color.parseColor("#FF000000"));
+            return true;
+        });
+        colorMenu.findItem(R.id.blue_menu_item).setOnMenuItemClickListener(menuItem -> {
+            notesEntity.setNotesColor(Color.parseColor("#FF3700B3"));
+            return true;
+        });
+        colorMenu.findItem(R.id.white_menu_item).setOnMenuItemClickListener(menuItem -> {
+            notesEntity.setNotesColor(Color.parseColor("#FFFFFFFF"));
+            return true;
+        });
+        colorMenu.findItem(R.id.green_menu_item).setOnMenuItemClickListener(menuItem -> {
+            notesEntity.setNotesColor(Color.parseColor("#FF018786"));
+            return true;
+        });
+        colorMenu.findItem(R.id.orange_menu_item).setOnMenuItemClickListener(menuItem -> {
+            notesEntity.setNotesColor(Color.parseColor("#FF9800"));
+            return true;
+        });
+        return popupMenu;
     }
 
 

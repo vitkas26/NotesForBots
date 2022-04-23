@@ -4,12 +4,15 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -62,17 +65,18 @@ public class NotesListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         notesRepo = App.get().localNotesRepo;
+        initToolbar();
         initRecyclerView(view);
-        initButton(view);
+//        initButton(view);
         initSwapAction();
     }
 
-    private void initButton(View view) {
-        newNoteButton = view.findViewById(R.id.notes_list_fragment__new_note_button);
-        newNoteButton.setOnClickListener(v -> {
-            controller.createNewNote();
-        });
-    }
+//    private void initButton(View view) {
+//        newNoteButton = view.findViewById(R.id.notes_list_fragment__new_note_button);
+//        newNoteButton.setOnClickListener(v -> {
+//            controller.createNewNote();
+//        });
+//    }
 
     private void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.notes_list_fragment__recycler_view);
@@ -139,5 +143,21 @@ public class NotesListFragment extends Fragment {
 
     public void refreshNoteList(){
         notesAdapter.setData(notesRepo.getNotes());
+    }
+
+    private void initToolbar() {
+        final androidx.appcompat.widget.Toolbar toolbar = getView().findViewById(R.id.notes_list_fragment__toolbar);
+        toolbar.setTitle("Заметки");
+        initMenu(toolbar);
+    }
+
+    private void initMenu(Toolbar toolbar){
+        final MenuInflater menuInflater = getActivity().getMenuInflater();
+        final Menu menu = toolbar.getMenu();
+        menuInflater.inflate(R.menu.list_note_menu, menu);
+        menu.findItem(R.id.list_note_menu__menu_add).setOnMenuItemClickListener(v->{
+            controller.createNewNote();
+            return true;
+        });
     }
 }
